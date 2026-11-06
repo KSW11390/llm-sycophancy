@@ -842,7 +842,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
   const bar = (cv, labels, data, colors, opts) => new Chart(cv, {
     type: 'bar', plugins: [tips],
     data: { labels, datasets: [{ data, backgroundColor: colors, hoverBackgroundColor: colors.map(c => c + 'CC'), tips: opts.tips, ranges: opts.ranges, ...BAR }] },
-    options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 24, right: 9 } }, animation: reduce ? false : grow,
+    options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 24, right: 22 } }, animation: reduce ? false : grow,
                scales: axes(opts.max, opts.step, opts.pct),
                plugins: { tooltip: { callbacks: { title: it => it[0].label.replace(/\n/g, ' '), label: opts.label } } } },
   });
@@ -890,12 +890,12 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
         pointRadius: strong ? 5 : 4, pointHoverRadius: 7, pointBorderColor: '#FFFFFF', pointBorderWidth: 2, tension: 0, strong, ...extra });
       return [
         () => revealIn(new Chart(l, { type: 'line', plugins: [ends, reveal],
-          data: { labels: [...conds, ''], datasets: [
+          data: { labels: conds, datasets: [
             line('Emotion', [93.3, 53.3, 23.3], C.grey, false, { endLabel: 'Emotion', borderDash: [6, 4] }),
-            line('Push', [95.0, 21.7, 3.3], C.grey, false, { endLabel: 'Push 3.3%' }),
-            line('Overall', [94.2, 37.5, 13.3], C.blue, true, { endLabel: 'Overall 13.3%' }),
+            line('Push', [95.0, 21.7, 3.3], C.grey, false, { endLabel: 'Push' }),
+            line('Overall', [94.2, 37.5, 13.3], C.blue, true, { endLabel: 'Overall' }),
           ] },
-          options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 24 } },
+          options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 24, right: 22 } },
             animation: false,
             interaction: { mode: 'index', intersect: false },
             scales: { ...axes(100, 25, true), x: { ...axes(100, 25, true).x, offset: true } },
