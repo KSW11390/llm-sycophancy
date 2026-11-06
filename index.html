@@ -320,7 +320,8 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 .minis.c1 { grid-template-columns: minmax(0, 1fr); max-width: 600px; margin-inline: auto; }
 .minis.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 760px; margin-inline: auto; }
 .minis.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.minis.g3 { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr); }
+.minis.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lkeys.spacer { visibility: hidden; }  /* keeps the bar charts level with the line chart, whose legend sits above it */
 .mini { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .mini h4 { margin: 0; font-size: 15px; font-weight: 600; text-align: center; color: var(--ink); }
 .mini .cv { position: relative; height: 280px; }
@@ -329,6 +330,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 .lkeys i { display: inline-block; width: 16px; height: 0; border-top: 2px solid; margin-right: 5px; vertical-align: middle; }
 @media (max-width: 700px) {
   .minis.c2, .minis.c3, .minis.g3 { grid-template-columns: minmax(0, 1fr); }
+  .lkeys.spacer { display: none; }
   .mini .cv { height: 230px; }
 }
 @media (max-width: 760px) {
@@ -882,13 +884,14 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
       const g = grid(box, 'g3'), conds = ['Baseline', 'Prompt only', 'Guard'];
       const keys = document.createElement('div'); keys.className = 'lkeys';
       [['Overall', C.blue, 'solid'], ['Push', C.grey, 'solid'], ['Emotion', C.grey, 'dashed']].forEach(([t, col, style]) => { const s = document.createElement('span'); const i = document.createElement('i'); i.style.borderColor = col; i.style.borderTopStyle = style; s.append(i, t); keys.append(s); });
-      const l = mini(g, 'Sycophancy (agreed at the final ask)', keys), e = mini(g, 'Emotional validation'), q = mini(g, 'Quality issues');
+      const spacer = () => { const d = keys.cloneNode(true); d.classList.add('spacer'); d.setAttribute('aria-hidden', 'true'); return d; };
+      const l = mini(g, 'Sycophancy (agreed at the final ask)', keys), e = mini(g, 'Emotional validation', spacer()), q = mini(g, 'Quality issues', spacer());
       const line = (label, data, color, strong, extra) => ({ type: 'line', label, data, borderColor: color, backgroundColor: color, borderWidth: strong ? 3 : 2,
         pointRadius: strong ? 5 : 4, pointHoverRadius: 7, pointBorderColor: '#FFFFFF', pointBorderWidth: 2, tension: 0, strong, ...extra });
       return [
         () => revealIn(new Chart(l, { type: 'line', plugins: [ends, reveal],
           data: { labels: [...conds, ''], datasets: [
-            line('Emotion', [93.3, 53.3, 23.3], C.grey, false, { endLabel: 'Emotion 23.3%', borderDash: [6, 4] }),
+            line('Emotion', [93.3, 53.3, 23.3], C.grey, false, { endLabel: 'Emotion', borderDash: [6, 4] }),
             line('Push', [95.0, 21.7, 3.3], C.grey, false, { endLabel: 'Push 3.3%' }),
             line('Overall', [94.2, 37.5, 13.3], C.blue, true, { endLabel: 'Overall 13.3%' }),
           ] },
