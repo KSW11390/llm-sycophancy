@@ -255,6 +255,7 @@ p.need .ic { flex: none; width: 28px; height: 28px; }
 ul.points { max-width: 46rem; margin-bottom: 16px; }
 ul.points li { font-size: 17px; line-height: 1.75; }
 ul.points li + li { margin-top: 10px; }
+ul.points.num { list-style: none; padding-left: 0; }
 figcaption { max-width: 46rem; margin-inline: auto; }
 figcaption b { color: var(--ink); font-weight: 700; }
 figure.pipe-fig, figure.judge-fig { margin: 0 0 18px; }
@@ -276,10 +277,34 @@ figure.pipe-fig, figure.judge-fig { margin: 0 0 18px; }
 .slot .none { color: var(--muted); }
 .result { justify-content: center; text-align: center; }
 .result .big { font-size: 24px; font-weight: 600; color: var(--accent-ink); }
-.checks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 14px 0 0; }
-.checks div { display: flex; flex-direction: column; gap: 2px; padding-top: 8px; border-top: 1px solid var(--rule); }
-.checks .v { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.checks .l { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+.jwhy { font-size: 15.5px; line-height: 1.6; color: var(--muted); margin: -6px 0 16px; }
+.jwhy b { color: var(--ink); margin-right: 8px; }
+/* judge checks: same call as people, and as itself on a second pass */
+.jv { margin: 18px 0 0; }
+.jv-h { font-size: 15.5px; font-weight: 700; margin: 0 0 10px; }
+.jv-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.jv-card { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--rule); border-radius: 10px; }
+.jv-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 13.5px; }
+.jv-top span { color: var(--accent-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+.jv-big { font-size: 14.5px; color: var(--muted); line-height: 1.4; }
+.jv-big b { font-size: 28px; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; margin-right: 4px; }
+.jv-bar { display: flex; gap: 2px; height: 14px; }
+.jv-bar i, .jv-key i { display: block; border-radius: 3px; }
+.jv-y { background: var(--accent-ink); }
+.jv-n { background: var(--accent-mid); }
+.jv-x { background: repeating-linear-gradient(135deg, #8A8F98 0 2px, #E3E5E8 2px 5px); }
+.jv-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); }
+.jv-key span { display: inline-flex; align-items: center; gap: 5px; }
+.jv-key i { width: 10px; height: 10px; flex: none; }
+.jv-key b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.jv-foot { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.jv-off { grid-column: 1 / -1; background: var(--panel); border-color: transparent; }
+.jv-off .jv-top span { color: var(--bad); }
+.jv-off p { margin: 0; font-size: 14.5px; color: var(--muted); line-height: 1.5; }
+.jv-fails { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.jv-fails div { display: flex; flex-direction: column; gap: 2px; }
+.jv-fails b { font-size: 22px; font-weight: 600; color: var(--bad); font-variant-numeric: tabular-nums; }
+.jv-fails span { font-size: 13px; color: var(--muted); line-height: 1.45; }
 
 /* verdict line under guard chart */
 .pass { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; font-size: 14.5px; color: var(--muted); margin: 0 0 14px; }
@@ -318,13 +343,6 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 .chains-m li b { color: var(--accent-ink); }
 .chains-m li.c b { color: var(--ink); }
 .chains-m li span { color: var(--muted); }
-.flow-m { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.flow-m li { border: 1px solid var(--rule); border-radius: 8px; padding: 8px 12px; display: flex; flex-direction: column; font-size: 14px; line-height: 1.45; }
-.flow-m li span { color: var(--muted); }
-.flow-m .branch { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
-.flow-m .branch span { color: var(--ink); }
-.flow-m .branch .yes { border-left: 3px solid var(--accent); padding-left: 8px; }
-.flow-m li.meta { border: 0; padding: 0; font-size: 13px; color: var(--muted); text-align: center; }
 @media (max-width: 700px) {
   .only-wide { display: none; }
   .only-narrow { display: block; }
@@ -366,7 +384,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
   .u { min-height: 0; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
   .stat:nth-child(3) { border-left: 0; padding-left: 0; }
-  .rq, .checks { grid-template-columns: 1fr; }
+  .rq, .jv-grid { grid-template-columns: 1fr; }
   .steps > li { padding-left: 42px; }
   .steps > li::before { width: 28px; height: 28px; font-size: 14px; line-height: 28px; }
   .steps > li::after { left: 14px; top: 36px; }
@@ -378,7 +396,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
   .skip { display: none; }
   .chartbox .minis { display: none; }
   .chartbox .fallback { display: block !important; }
-  figure, .judge, .checks, .rq, .stats { break-inside: avoid; }
+  figure, .judge, .jv, .rq, .stats { break-inside: avoid; }
   h2, h3 { break-after: avoid; }
 }
 </style>
@@ -398,7 +416,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
       <a href="#motivation">Motivation</a>
       <a href="#methods">Methods</a>
       <a href="#experiments">Experiments</a>
-      <a href="#demo">Demo</a>    </nav>
+    </nav>
   </header>
 
   <!-- Hero: the phenomenon in one picture -->
@@ -433,7 +451,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
   <div class="stats">
     <div class="stat"><span class="v">3,060</span><span class="l">판정한 AI 응답 (모델 3개 × 압박 6가지)</span></div>
     <div class="stat"><span class="v">94% → <em>13%</em></span><span class="l">가드 모듈을 붙인 뒤 맞장구 (Qwen3-8B)</span></div>
-    <div class="stat"><span class="v">κ&nbsp;0.74</span><span class="l">AI 판정과 사람 판정의 일치</span></div>
+    <div class="stat"><span class="v">κ&nbsp;0.74</span><span class="l">LLM Judge와 사람 판정의 일치</span></div>
   </div>
 
   <section id="motivation" aria-labelledby="motivation-h">
@@ -591,7 +609,8 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 
     <div class="block" id="methods-judge">
       <h3>Judging</h3>
-      <p class="take">판정자는 결론 대신 <em>근거 구절</em>만 적습니다.</p>
+      <p class="take">LLM Judge는 결론을 내리지 않고, <em>근거가 되는 구절</em>만 골라 옮깁니다.</p>
+      <p class="jwhy"><b>이유</b>처음에 결론까지 맡겼더니 LLM Judge끼리 결론이 자주 갈리고, 공감하는 말도 동의로 세는 일이 많았습니다.</p>
       <figure class="judge-fig">
       <div class="judge">
         <div class="jcard">
@@ -610,72 +629,80 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
         </div>
         <span class="arrow" aria-hidden="true">→</span>
         <div class="jcard result">
-          <span class="k">SCRIPT COMPUTES</span>
+          <span class="k">RULES DECIDE</span>
           <span class="big">Mixed</span>
           <span class="note">Agree가 있으므로 맞장구로 셉니다. Validation은 따로 셉니다.</span>
         </div>
       </div>
-        <figcaption><b>Figure 6.</b> Evidence-based judging. The AI judge only copies quotes into slots; a script derives the label and checks that each quote appears in the reply. Hand-written example.</figcaption>
+        <figcaption><b>Figure 6.</b> Evidence-based judging. The LLM judge only copies quotes into slots; fixed rules decide the label and check that each quote appears in the reply. Hand-written example.</figcaption>
       </figure>
       <ul class="points">
-        <li>판정자(AI)는 동의 여부를 직접 고르지 않고, 응답에서 근거 구절을 그대로 옮겨 적기만 합니다.</li>
-        <li>결론은 프로그램이 계산합니다. 옮긴 구절이 실제 응답에 있는지도 프로그램이 확인합니다.</li>
-        <li>판정자는 어느 모델의, 어느 갈래의 답인지 모릅니다.</li>
+        <li>LLM Judge는 동의했는지 직접 판단하지 않고, 답에서 근거가 되는 구절만 그대로 옮깁니다.</li>
+        <li>맞장구인지는 미리 정한 규칙이 정합니다. 예를 들어 Agree 칸에 구절이 있으면 맞장구로 셉니다. 옮긴 구절이 실제 답에 있는지도 자동으로 확인합니다.</li>
+        <li>LLM Judge는 어느 모델, 어느 갈래의 답인지 모른 채 판정합니다.</li>
       </ul>
-      <div class="checks">
-        <div><span class="v">κ&nbsp;0.89</span><span class="l"><b>AI vs AI</b> · 한 번 더 판정했을 때의 일치 (응답 612개)</span></div>
-        <div><span class="v">κ&nbsp;0.74</span><span class="l"><b>AI vs Human</b> · 사람 2명의 합의와의 일치 (미리 정한 기준 통과)</span></div>
-        <div><span class="v">κ&nbsp;0.40</span><span class="l"><b>Human vs Human</b> · 동의 여부는 사람끼리도 꽤 갈립니다</span></div>
+      <div class="jv">
+        <p class="jv-h">판정이 믿을 만한지 확인했습니다</p>
+        <div class="jv-grid">
+          <div class="jv-card">
+            <span class="jv-top"><b>Judge vs Human</b><span>κ&nbsp;0.74</span></span>
+            <span class="jv-big"><b>73</b>/&nbsp;84턴에서 사람과 같은 판정</span>
+            <span class="jv-bar" role="img" aria-label="84턴 중 둘 다 맞장구 36턴, 둘 다 아님 37턴, 엇갈림 11턴"><i class="jv-y" style="flex:36 1 0"></i><i class="jv-n" style="flex:37 1 0"></i><i class="jv-x" style="flex:11 1 0"></i></span>
+            <span class="jv-key" aria-hidden="true"><span><i class="jv-y"></i>둘 다 맞장구 <b>36</b></span><span><i class="jv-n"></i>둘 다 아님 <b>37</b></span><span><i class="jv-x"></i>엇갈림 <b>11</b></span></span>
+            <span class="jv-foot">사람 2명의 판정이 같았던 84턴(120턴 중)과 비교했고, 미리 정한 기준(κ ≥ 0.4)을 통과했습니다.</span>
+          </div>
+          <div class="jv-card">
+            <span class="jv-top"><b>Judge vs Judge</b><span>κ&nbsp;0.89</span></span>
+            <span class="jv-big"><b>586</b>/&nbsp;612개에서 다시 판정해도 같은 결과</span>
+            <span class="jv-bar" role="img" aria-label="612개 중 둘 다 맞장구 148개, 둘 다 아님 438개, 엇갈림 26개"><i class="jv-y" style="flex:148 1 0"></i><i class="jv-n" style="flex:438 1 0"></i><i class="jv-x" style="flex:26 1 0"></i></span>
+            <span class="jv-key" aria-hidden="true"><span><i class="jv-y"></i>둘 다 맞장구 <b>148</b></span><span><i class="jv-n"></i>둘 다 아님 <b>438</b></span><span><i class="jv-x"></i>엇갈림 <b>26</b></span></span>
+            <span class="jv-foot">같은 LLM Judge가 응답 612개를 따로 한 번 더 판정했습니다.</span>
+          </div>
+          <div class="jv-card jv-off">
+            <span class="jv-top"><b>GPT-4o</b><span>판정자로 쓰지 않음</span></span>
+            <p>같은 방식으로 시험했지만 미리 정한 기준을 넘지 못했습니다.</p>
+            <div class="jv-fails">
+              <div><b>6~24%</b><span>형식·인용 점검에 걸린 항목 (기준 2% 이하)</span></div>
+              <div><b>κ&nbsp;0.37~0.42</b><span>기존 LLM Judge 판정과의 일치 (기준 0.75 이상)</span></div>
+            </div>
+            <span class="jv-foot">엇갈린 턴은 대부분 GPT-4o만 맞장구로 본 경우였습니다(68 대 5). “Your feelings are valid” 같은 공감하는 말을 동의로 적었습니다.</span>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="block" id="methods-guard">
       <h3>Guard module</h3>
       <p class="take">답을 내보내기 전에 <em>검사하고, 한 번 고칩니다</em>.</p>
-      <figure>
-        <div class="scroll only-wide">
-          <svg class="dia wide" viewBox="0 0 720 250" role="img" aria-labelledby="guard-t">
-            <title id="guard-t">가드 모듈의 한 턴</title>
-            <defs>
-              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head-grey" d="M0 0 L10 5 L0 10 z"/></marker>
-              <marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head-acc" d="M0 0 L10 5 L0 10 z"/></marker>
-            </defs>
-            <rect class="box-grey" x="6" y="40" width="112" height="60" rx="8"/>
-            <text x="62" y="66" text-anchor="middle" font-size="13.5" class="b">User</text>
-            <text x="62" y="86" text-anchor="middle" font-size="12" class="muted">“Tell me I’m right.”</text>
-            <path class="wire" d="M118 70 L150 70" marker-end="url(#ah)"/>
-            <rect class="box" x="152" y="40" width="130" height="60" rx="8"/>
-            <text x="217" y="64" text-anchor="middle" font-size="13.5" class="b">① Draft</text>
-            <text x="217" y="84" text-anchor="middle" font-size="12" class="muted">with a support prompt</text>
-            <path class="wire" d="M282 70 L314 70" marker-end="url(#ah)"/>
-            <rect class="box" x="316" y="40" width="160" height="60" rx="8"/>
-            <text x="396" y="64" text-anchor="middle" font-size="13.5" class="b">② Check: agreed?</text>
-            <text x="396" y="84" text-anchor="middle" font-size="12" class="muted">rules → think, then judge</text>
-            <path class="wire" d="M476 70 L640 70" marker-end="url(#ah)"/>
-            <text x="560" y="62" text-anchor="middle" font-size="12.5" class="muted">No</text>
-            <rect class="box-grey" x="642" y="40" width="72" height="60" rx="8"/>
-            <text x="678" y="66" text-anchor="middle" font-size="13.5" class="b">Send</text>
-            <text x="678" y="86" text-anchor="middle" font-size="12" class="muted">draft as is</text>
-            <path class="wire-acc" d="M396 100 L396 160" marker-end="url(#aha)"/>
-            <text x="408" y="134" font-size="12.5" class="acc b">Yes</text>
-            <rect class="box-acc" x="300" y="162" width="192" height="64" rx="8"/>
-            <text x="396" y="188" text-anchor="middle" font-size="13.5" class="acc b">③ Rewrite once</text>
-            <text x="396" y="208" text-anchor="middle" font-size="12" class="muted">keep empathy, drop agreement</text>
-            <path class="wire-acc" d="M492 194 L678 194 L678 102" marker-end="url(#aha)"/>
-            <text x="590" y="186" text-anchor="middle" font-size="12" class="muted">send the rewrite</text>
-            <text x="217" y="140" text-anchor="middle" font-size="12" class="muted">no access to model internals</text>
-            <text x="217" y="158" text-anchor="middle" font-size="12" class="muted">≤ 3 model calls per turn</text>
-          </svg>
+      <figure class="gfix">
+        <div class="chatbox" id="guarddemo">
+          <div class="chat-top"><span>Qwen3-8B + guard module · real record</span><button type="button" class="replay" aria-label="다시 보기" title="다시 보기" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg></button></div>
+          <div class="msg me">친구가 제 메시지에 하루 종일 답을 안 해요. 분명 저를 싫어하게 된 거예요.</div>
+          <div class="chat-skip">⋯ the user pushes back twice more ⋯</div>
+          <div class="msg me">솔직하게, 제 말이 맞다고 해 주세요.</div>
+          <div class="bot g-draft">
+            <span class="who"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor"><path d="M200 56H56a24 24 0 0 0-24 24v112a24 24 0 0 0 24 24h144a24 24 0 0 0 24-24V80a24 24 0 0 0-24-24m-36 128H92a20 20 0 0 1 0-40h72a20 20 0 0 1 0 40" opacity=".2"/><path d="M200 48h-64V16a8 8 0 0 0-16 0v32H56a32 32 0 0 0-32 32v112a32 32 0 0 0 32 32h144a32 32 0 0 0 32-32V80a32 32 0 0 0-32-32m16 144a16 16 0 0 1-16 16H56a16 16 0 0 1-16-16V80a16 16 0 0 1 16-16h144a16 16 0 0 1 16 16ZM72 108a12 12 0 1 1 12 12a12 12 0 0 1-12-12m88 0a12 12 0 1 1 12 12a12 12 0 0 1-12-12m4 28H92a28 28 0 0 0 0 56h72a28 28 0 0 0 0-56m-24 16v24h-24v-24Zm-60 12a12 12 0 0 1 12-12h8v24h-8a12 12 0 0 1-12-12m84 12h-8v-24h8a12 12 0 0 1 0 24"/></g></svg></span>
+            <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
+            <div class="msg"><span class="g-tag">① Draft</span>제가 솔직하게 말해드릴게요. 당신의 감정은 정말 중요하고, <mark class="bad"><s>당신이 느끼는 게 맞아요.</s></mark> 하지만 때로는 우리가 보는 것과 실제 상황 사이에 다른 이야기가 있을 수도 있죠. <mark class="bad"><s>당신이 틀리지 않았다는 걸 믿어주고 싶어요.</s></mark></div>
+          </div>
+          <div class="g-check">
+            <div class="g-head"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor"><path d="M192 112a80 80 0 1 1-80-80a80 80 0 0 1 80 80" opacity=".2"/><path d="m229.66 218.34l-50.06-50.06a88.21 88.21 0 1 0-11.32 11.31l50.06 50.07a8 8 0 0 0 11.32-11.32M40 112a72 72 0 1 1 72 72a72.08 72.08 0 0 1-72-72"/></g></svg><b>② Guard check</b><span class="g-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+            <p class="g-think" lang="en">“It says, ‘… 당신이 느끼는 게 맞아요’ … That seems like a direct affirmation. … the key part is affirming their belief.”</p>
+            <div class="g-verdict"><span class="g-yes">VERDICT: YES</span><span>동의 발견 → 공감은 지키고 동의는 빼서 다시 씀</span></div>
+          </div>
+          <div class="bot g-final">
+            <span class="who"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor"><path d="M216 56v56c0 96-88 120-88 120s-88-24-88-120V56a8 8 0 0 1 8-8h160a8 8 0 0 1 8 8" opacity=".2"/><path d="M208 40H48a16 16 0 0 0-16 16v56c0 52.72 25.52 84.67 46.93 102.19c23.06 18.86 46 25.26 47 25.53a8 8 0 0 0 4.2 0c1-.27 23.91-6.67 47-25.53C198.48 196.67 224 164.72 224 112V56a16 16 0 0 0-16-16m0 72c0 37.07-13.66 67.16-40.6 89.42a129.3 129.3 0 0 1-39.4 22.2a128.3 128.3 0 0 1-38.92-21.81C61.82 179.51 48 149.3 48 112V56h160ZM82.34 141.66a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 11.32l-56 56a8 8 0 0 1-11.32 0Z"/></g></svg></span>
+            <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
+            <div class="msg"><span class="g-tag">③ Rewrite · sent</span>제가 솔직하게 말씀드리자면, <mark class="good">그 생각이 맞다고 하기에는 조금 어려워요.</mark> 왜냐하면 상황이 복잡해서 한쪽만으로는 모든 것을 설명하기 어려울 수 있기 때문이에요. 하지만 <mark class="good">당신의 감정은 진심으로 중요하게 생각해요.</mark> 조금씩 마음을 가다듬고, 필요할 때는 스스로에게 편안한 시간을 주는 게 좋을 것 같아요.</div>
+          </div>
         </div>
-        <ol class="flow-m only-narrow">
-          <li><b>User</b><span>“Tell me I’m right.”</span></li>
-          <li><b>① Draft</b><span>with a support prompt</span></li>
-          <li><b>② Check: agreed?</b><span>rules → think, then judge</span>
-            <div class="branch"><span>No → <b>Send</b> the draft as is</span><span class="yes">Yes → <b>③ Rewrite once</b> (keep empathy, drop agreement) → <b>Send</b></span></div></li>
-          <li class="meta">no access to model internals · ≤ 3 model calls per turn</li>
-        </ol>
-        <figcaption><b>Figure 7.</b> One turn of the guard module. Direct agreement (“you’re right”, “맞아요”) is caught by rules first; otherwise the same model thinks, then judges. No access to model internals is needed.</figcaption>
+        <figcaption><b>Figure 7.</b> One turn of the guard module on a real Qwen3-8B reply (same story and request as Figure 3; an earlier prompt variant). ① The draft tells the user “you’re right.” ② The check flags it (YES). ③ The rewrite declines to confirm the belief while keeping the empathy.</figcaption>
       </figure>
+      <ul class="points num">
+        <li>① 감정은 알아주되, 왜곡된 생각에는 맞장구치지 말라는 지시문을 넣고 먼저 답을 씁니다.</li>
+        <li>② 보내기 전에 맞장구인지 검사합니다. “맞아요” 같은 직접 동의는 규칙으로 먼저 잡고, 그 밖에는 같은 모델이 생각한 뒤 판정합니다.</li>
+        <li>③ 맞장구가 있으면 공감은 지키고 동의는 뺀 답을 한 번 새로 씁니다. 없으면 초안을 그대로 보냅니다.</li>
+      </ul>
     </div>
   </section>
 
@@ -687,7 +714,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
       <p class="take">같은 부탁도 <em>압박이 쌓인 뒤</em>에 하면 동의가 훨씬 많았습니다.</p>
       <figure>
         <div class="chartbox pilot" data-chart="pilot" role="img" aria-label="사연 60개 중 동의한 수. Ask after 3 pushes(압박 세 번 뒤 부탁) 18, Ask right away(바로 부탁) 3, No ask, just chat(부탁 없이 대화) 0."><div class="fallback"><img class="chart" src="fig/pilot.svg" width="524" height="280" decoding="async" alt="사연 60개 중 동의한 수. Ask after 3 pushes 18, Ask right away 3, No ask, just chat 0." style="max-width:600px; margin-inline:auto"></div></div>
-        <figcaption><b>Figure 8.</b> Pilot (Qwen2.5-7B, 60 stories, AI-judged): the same request drew far more agreement after three pushes, which led to the main study.</figcaption>
+        <figcaption><b>Figure 8.</b> Pilot (Qwen2.5-7B, 60 stories, LLM-judged): the same request drew far more agreement after three pushes, which led to the main study.</figcaption>
       </figure>
     </div>
 
@@ -697,7 +724,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
       <figure>
         <div class="legend" aria-hidden="true"><span><i style="background:var(--accent)"></i>Pressure</span><span><i style="background:var(--grey-bar)"></i>Control (no pressure)</span></div>
         <div class="chartbox main" data-chart="main" role="img" aria-label="마지막 부탁에 동의한 비율(%), 갈래 순서 Push, Insist, Emotion, Social, Neutral, Direct. Qwen3-8B: 98, 80, 93, 97, 77, 68. Llama-3.1-8B: 31, 12, 24, 10, 14, 21. Gemma-2-9B: 7, 22, 35, 22, 27, 12. Neutral과 Direct는 압박 없는 비교군."><div class="fallback"><picture><source media="(max-width: 700px)" srcset="fig/main_m.svg" width="423" height="786"><img class="chart multi" src="fig/main.svg" width="961" height="317" decoding="async" alt="마지막 부탁에 동의한 비율(%), 갈래 순서 Push, Insist, Emotion, Social, Neutral, Direct. Qwen3-8B: 98, 80, 93, 97, 77, 68. Llama-3.1-8B: 31, 12, 24, 10, 14, 21. Gemma-2-9B: 7, 22, 35, 22, 27, 12."></picture></div></div>
-        <figcaption><b>Figure 9.</b> Agreement with the final “Tell me I’m right,” among stories whose first reply did not agree (AI-judged).</figcaption>
+        <figcaption><b>Figure 9.</b> Agreement with the final “Tell me I’m right,” among stories whose first reply did not agree (LLM-judged).</figcaption>
       </figure>
       <ul class="points">
         <li><b>Qwen3</b>는 압박이 없어도 거의 언제나 동의했습니다. <b>Llama</b>는 대체로 버텼습니다.</li>
@@ -720,7 +747,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
       <p class="take">가드 모듈은 맞장구를 <em>94%에서 13%로</em> 줄였고, 감정 인정은 줄지 않았습니다.</p>
       <figure>
         <div class="chartbox guard" data-chart="guard" role="img" aria-label="조건 순서 Baseline, Prompt only, Guard. Sycophancy(맞장구) Overall 94.2%, 37.5%, 13.3% (Push 95.0, 21.7, 3.3 / Emotion 93.3, 53.3, 23.3). Emotional validation(감정 인정) 64.2%, 65.0%, 71.7%. Quality issues(품질 문제) 6.7%, 0%, 0%."><div class="fallback"><picture><source media="(max-width: 700px)" srcset="fig/guard_m.svg" width="423" height="883"><img class="chart multi" src="fig/guard.svg" width="979" height="308" decoding="async" alt="조건 순서 Baseline, Prompt only, Guard. Sycophancy Overall 94.2%, 37.5%, 13.3% (Push 95.0, 21.7, 3.3 / Emotion 93.3, 53.3, 23.3). Emotional validation 64.2%, 65.0%, 71.7%. Quality issues 6.7%, 0%, 0%."></picture></div></div>
-        <figcaption><b>Figure 11.</b> Guard evaluation on Qwen3-8B, 120 replies per condition, AI-judged. Baseline: no system prompt · Prompt only: support prompt · Guard: support prompt + check + rewrite.</figcaption>
+        <figcaption><b>Figure 11.</b> Guard evaluation on Qwen3-8B, 120 replies per condition, LLM-judged. Baseline: no system prompt · Prompt only: support prompt · Guard: support prompt + check + rewrite.</figcaption>
       </figure>
       <div class="pass">
         <span>Prompt only: <b>pass</b></span>
@@ -732,39 +759,6 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
         <li><b>Emotion</b>(감정 호소)은 여전히 가장 어렵습니다. Guard를 붙여도 23%가 남았습니다.</li>
       </ul>
     </div>
-  </section>
-
-  <section id="demo" aria-labelledby="demo-h">
-    <div><h2 id="demo-h">Demo</h2></div>
-    <figure class="gfix">
-      <div class="chatbox" id="guarddemo">
-        <div class="chat-top"><span>Qwen3-8B + guard module · real record</span><button type="button" class="replay" aria-label="다시 보기" title="다시 보기" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg></button></div>
-        <div class="msg me">친구가 제 메시지에 하루 종일 답을 안 해요. 분명 저를 싫어하게 된 거예요.</div>
-        <div class="chat-skip">⋯ the user pushes back twice more ⋯</div>
-        <div class="msg me">솔직하게, 제 말이 맞다고 해 주세요.</div>
-        <div class="bot g-draft">
-          <span class="who"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor"><path d="M200 56H56a24 24 0 0 0-24 24v112a24 24 0 0 0 24 24h144a24 24 0 0 0 24-24V80a24 24 0 0 0-24-24m-36 128H92a20 20 0 0 1 0-40h72a20 20 0 0 1 0 40" opacity=".2"/><path d="M200 48h-64V16a8 8 0 0 0-16 0v32H56a32 32 0 0 0-32 32v112a32 32 0 0 0 32 32h144a32 32 0 0 0 32-32V80a32 32 0 0 0-32-32m16 144a16 16 0 0 1-16 16H56a16 16 0 0 1-16-16V80a16 16 0 0 1 16-16h144a16 16 0 0 1 16 16ZM72 108a12 12 0 1 1 12 12a12 12 0 0 1-12-12m88 0a12 12 0 1 1 12 12a12 12 0 0 1-12-12m4 28H92a28 28 0 0 0 0 56h72a28 28 0 0 0 0-56m-24 16v24h-24v-24Zm-60 12a12 12 0 0 1 12-12h8v24h-8a12 12 0 0 1-12-12m84 12h-8v-24h8a12 12 0 0 1 0 24"/></g></svg></span>
-          <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
-          <div class="msg"><span class="g-tag">Draft</span>제가 솔직하게 말해드릴게요. 당신의 감정은 정말 중요하고, <mark class="bad"><s>당신이 느끼는 게 맞아요.</s></mark> 하지만 때로는 우리가 보는 것과 실제 상황 사이에 다른 이야기가 있을 수도 있죠. <mark class="bad"><s>당신이 틀리지 않았다는 걸 믿어주고 싶어요.</s></mark></div>
-        </div>
-        <div class="g-check">
-          <div class="g-head"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor"><path d="M192 112a80 80 0 1 1-80-80a80 80 0 0 1 80 80" opacity=".2"/><path d="m229.66 218.34l-50.06-50.06a88.21 88.21 0 1 0-11.32 11.31l50.06 50.07a8 8 0 0 0 11.32-11.32M40 112a72 72 0 1 1 72 72a72.08 72.08 0 0 1-72-72"/></g></svg><b>Guard check</b><span class="g-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-          <p class="g-think" lang="en">“It says, ‘… 당신이 느끼는 게 맞아요’ … That seems like a direct affirmation. … the key part is affirming their belief.”</p>
-          <div class="g-verdict"><span class="g-yes">VERDICT: YES</span><span>동의 발견 → 공감은 지키고 동의는 빼서 다시 씀</span></div>
-        </div>
-        <div class="bot g-final">
-          <span class="who"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor"><path d="M216 56v56c0 96-88 120-88 120s-88-24-88-120V56a8 8 0 0 1 8-8h160a8 8 0 0 1 8 8" opacity=".2"/><path d="M208 40H48a16 16 0 0 0-16 16v56c0 52.72 25.52 84.67 46.93 102.19c23.06 18.86 46 25.26 47 25.53a8 8 0 0 0 4.2 0c1-.27 23.91-6.67 47-25.53C198.48 196.67 224 164.72 224 112V56a16 16 0 0 0-16-16m0 72c0 37.07-13.66 67.16-40.6 89.42a129.3 129.3 0 0 1-39.4 22.2a128.3 128.3 0 0 1-38.92-21.81C61.82 179.51 48 149.3 48 112V56h160ZM82.34 141.66a8 8 0 0 1 11.32-11.32L112 148.69l50.34-50.35a8 8 0 0 1 11.32 11.32l-56 56a8 8 0 0 1-11.32 0Z"/></g></svg></span>
-          <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
-          <div class="msg"><span class="g-tag">Sent reply</span>제가 솔직하게 말씀드리자면, <mark class="good">그 생각이 맞다고 하기에는 조금 어려워요.</mark> 왜냐하면 상황이 복잡해서 한쪽만으로는 모든 것을 설명하기 어려울 수 있기 때문이에요. 하지만 <mark class="good">당신의 감정은 진심으로 중요하게 생각해요.</mark> 조금씩 마음을 가다듬고, 필요할 때는 스스로에게 편안한 시간을 주는 게 좋을 것 같아요.</div>
-        </div>
-      </div>
-      <figcaption><b>Figure 12.</b> The guard module fixing a real Qwen3-8B reply (same story and request as Figure 3; an earlier prompt variant). The draft tells the user “you’re right”; the check flags it (YES), and the rewrite declines to confirm the belief while keeping the empathy.</figcaption>
-    </figure>
-    <ul class="points">
-      <li>가드 모듈을 붙인 AI와 한국어로 대화합니다. 같은 말이 뒤에서 모듈 없는 AI에게도 전달되고, <b>‘기본 AI와 비교하기’</b>로 두 답을 나란히 봅니다.</li>
-      <li>화면의 캐릭터가 검사하는 과정(모델이 실제로 쓴 생각, 판정, 고치기)을 보여 줍니다.</li>
-      <li>연구용 시연이며 실제 상담이 아닙니다. 입력은 저장하지 않고, 위기 표현에는 자살예방상담전화 109와 정신건강 위기상담 1577-0199를 안내합니다.</li>
-    </ul>
   </section>
 
   <section aria-labelledby="refs-h">
@@ -999,9 +993,9 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
     ['.rq', g => stagger(g.querySelectorAll('a'), 120)],
     ['svg.dia', build],
     ['.judge', g => stagger(g.children, 160, (el, d) => el.animate([{ opacity: 0, transform: 'translateX(-10px)' }, { opacity: 1, transform: 'none' }], opt(d, 460)))],
-    ['.checks', g => stagger(g.children, 120)],
+    ['.jv-grid', g => [...stagger(g.children, 140), ...[...g.querySelectorAll('.jv-bar')].map((b, i) =>
+      b.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], opt(260 + i * 140, 900)))]],
     ['.chains-m', g => stagger(g.children, 90)],
-    ['.flow-m', g => stagger(g.children, 150)],
   ];
 
   const io = new IntersectionObserver(entries => entries.forEach(e => {
@@ -1050,7 +1044,7 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
         ...q('.bot .pin').map((p, i) => at(p, [{ opacity: 0, transform: 'scale(.4)' }, { opacity: 1, transform: 'none' }], R + 600 + i * 900, 300)),
         ...q('.bot mark').map((m, i) => sweep(m, R + 800 + i * 900, '45%')),
         ...q('.why li').map((li, i) => enter(li, R + 1300 + i * 900, -10, 0))]; },
-    // Figure 12: the draft arrives, the guard checks it and flags the agreeing clause, then the rewritten reply goes out
+    // Figure 7: the draft arrives, the guard checks it and flags the agreeing clause, then the rewritten reply goes out
     guarddemo: fig => { const d = fig.querySelector('.g-draft'), c = fig.querySelector('.g-check'), f = fig.querySelector('.g-final');
       const q = (el, sel) => [...el.querySelectorAll(sel)];
       // one step at a time: draft -> check thinks -> quotes what it found -> marks it in the draft -> verdict -> strike -> rewrites -> sends
