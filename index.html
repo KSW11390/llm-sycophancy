@@ -306,11 +306,6 @@ figure.pipe-fig, figure.judge-fig { margin: 0 0 18px; }
 .jv-fails b { font-size: 22px; font-weight: 600; color: var(--bad); font-variant-numeric: tabular-nums; }
 .jv-fails span { font-size: 13px; color: var(--muted); line-height: 1.45; }
 
-/* verdict line under guard chart */
-.pass { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 22px; font-size: 14.5px; color: var(--muted); margin: 0 0 14px; }
-.pass b { color: var(--accent-ink); }
-
-
 ol.refs { margin: 0; padding-left: 22px; font-size: 14px; line-height: 1.55; color: var(--muted); }
 ol.refs li + li { margin-top: 4px; }
 ol.refs i { color: var(--ink); }
@@ -391,8 +386,39 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
   .steps > li > .kicker { line-height: 28px; }
   .steps h3 { font-size: 21px; }
 }
+/* menu bar that follows the reader once the header menu has scrolled away */
+.topnav { position: fixed; z-index: 30; top: 0; left: 0; right: 0; padding-top: env(safe-area-inset-top, 0px);
+  background: rgba(255, 255, 255, 0.94); border-bottom: 1px solid var(--rule); backdrop-filter: saturate(1.4) blur(8px); -webkit-backdrop-filter: saturate(1.4) blur(8px);
+  transform: translateY(-100%); visibility: hidden; transition: transform .28s cubic-bezier(.2,.7,.2,1), visibility 0s linear .28s; }
+.topnav.on { transform: none; visibility: visible; transition: transform .28s cubic-bezier(.2,.7,.2,1), visibility 0s; }
+.topnav-in { max-width: 1040px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 52px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); box-sizing: content-box; }
+.topnav-t { font-size: 15px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.topnav-t:hover { text-decoration: none; color: var(--accent-ink); }
+.topnav-l { display: flex; gap: 4px; }
+.topnav-l a { position: relative; display: grid; place-items: center; height: 52px; padding: 0 12px; font-size: 15.5px; color: var(--muted); }
+.topnav-l a:hover { color: var(--ink); text-decoration: none; }
+.topnav-l a[aria-current] { color: var(--accent-ink); font-weight: 600; }
+.topnav-l a::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--accent-ink);
+  transform: scaleX(0); transition: transform .25s ease; }
+.topnav-l a[aria-current]::after { transform: scaleX(1); }
+.topnav a:focus-visible { outline-offset: -4px; }
+[id] { scroll-margin-top: 84px; }
+section[id] { scroll-margin-top: 32px; }  /* the rule and padding above a section title sit under the bar, so the title lands where block titles do */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+@media (prefers-reduced-motion: reduce) { .topnav, .topnav.on, .topnav-l a::after { transition: none; } }
+@media (max-width: 560px) {
+  .topnav-t { display: none; }
+  .topnav-in { justify-content: center; height: 48px; }
+  .topnav-l { flex: 1; justify-content: space-around; }
+  .topnav-l a { height: 48px; padding: 0 8px; font-size: 15px; }
+  [id] { scroll-margin-top: 72px; }
+  section[id] { scroll-margin-top: 22px; }
+}
+
 /* print / save as PDF: the static SVG charts instead of canvases (which are only drawn once scrolled to), figures kept whole */
 @media print {
+  .topnav { display: none; }
   .skip { display: none; }
   .chartbox .minis { display: none; }
   .chartbox .fallback { display: block !important; }
@@ -402,7 +428,17 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 </style>
 </head>
 <body>
-<main lang="ko">
+<nav class="topnav" aria-label="섹션 이동">
+  <div class="topnav-in">
+    <a class="topnav-t" href="#top">Anatomy of LLM Sycophancy</a>
+    <div class="topnav-l">
+      <a href="#motivation">Motivation</a>
+      <a href="#methods">Methods</a>
+      <a href="#experiments">Experiments</a>
+    </div>
+  </div>
+</nav>
+<main lang="ko" id="top">
   <a class="skip" href="#motivation">본문으로 건너뛰기</a>
   <header>
     <h1>Anatomy of LLM Sycophancy</h1>
@@ -711,7 +747,6 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 
     <div class="block">
       <h3>Pilot study<small>Qwen2.5-7B</small></h3>
-      <p class="take">같은 부탁도 <em>압박이 쌓인 뒤</em>에 하면 동의가 훨씬 많았습니다.</p>
       <figure>
         <div class="chartbox pilot" data-chart="pilot" role="img" aria-label="사연 60개 중 동의한 수. Ask after 3 pushes(압박 세 번 뒤 부탁) 18, Ask right away(바로 부탁) 3, No ask, just chat(부탁 없이 대화) 0."><div class="fallback"><img class="chart" src="fig/pilot.svg" width="524" height="280" decoding="async" alt="사연 60개 중 동의한 수. Ask after 3 pushes 18, Ask right away 3, No ask, just chat 0." style="max-width:600px; margin-inline:auto"></div></div>
         <figcaption><b>Figure 8.</b> Pilot (Qwen2.5-7B, 60 stories, LLM-judged): the same request drew far more agreement after three pushes, which led to the main study.</figcaption>
@@ -720,14 +755,13 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 
     <div class="block" id="exp-main">
       <h3>Main study<small>3 models × 6 pressure chains</small></h3>
-      <p class="take">맞장구의 크기와 방식은 <em>모델마다</em> 크게 달랐습니다.</p>
       <figure>
         <div class="legend" aria-hidden="true"><span><i style="background:var(--accent)"></i>Pressure</span><span><i style="background:var(--grey-bar)"></i>Control (no pressure)</span></div>
         <div class="chartbox main" data-chart="main" role="img" aria-label="마지막 부탁에 동의한 비율(%), 갈래 순서 Push, Insist, Emotion, Social, Neutral, Direct. Qwen3-8B: 98, 80, 93, 97, 77, 68. Llama-3.1-8B: 31, 12, 24, 10, 14, 21. Gemma-2-9B: 7, 22, 35, 22, 27, 12. Neutral과 Direct는 압박 없는 비교군."><div class="fallback"><picture><source media="(max-width: 700px)" srcset="fig/main_m.svg" width="423" height="786"><img class="chart multi" src="fig/main.svg" width="961" height="317" decoding="async" alt="마지막 부탁에 동의한 비율(%), 갈래 순서 Push, Insist, Emotion, Social, Neutral, Direct. Qwen3-8B: 98, 80, 93, 97, 77, 68. Llama-3.1-8B: 31, 12, 24, 10, 14, 21. Gemma-2-9B: 7, 22, 35, 22, 27, 12."></picture></div></div>
         <figcaption><b>Figure 9.</b> Agreement with the final “Tell me I’m right,” among stories whose first reply did not agree (LLM-judged).</figcaption>
       </figure>
       <ul class="points">
-        <li><b>Qwen3</b>는 압박이 없어도 거의 언제나 동의했습니다. <b>Llama</b>는 대체로 버텼습니다.</li>
+        <li><b>Qwen3</b>는 압박이 없어도 70% 안팎으로 동의했습니다. <b>Llama</b>는 대체로 버텼습니다.</li>
         <li><b>Gemma</b>는 부탁에는 잘 버텼지만(7%), 부탁 없이 고집하거나 감정에 호소하는 말에는 절반가량 “You’re absolutely right”라고 먼저 동의했습니다.</li>
         <li><b>Emotion</b>(감정 호소)이 가장 강한 압박이었습니다. 세 모델을 합쳐 Neutral 뒤보다 동의가 12%포인트 많았습니다.</li>
       </ul>
@@ -735,7 +769,6 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 
     <div class="block" id="exp-steering">
       <h3>Steering<small>first mitigation attempt</small></h3>
-      <p class="take">모델 내부를 직접 밀자 맞장구는 줄었지만 <em>답이 망가졌습니다</em>.</p>
       <figure>
         <div class="chartbox steering" data-chart="steering" role="img" aria-label="사연 60개 기준. Sycophancy(맞장구): Before 19, After steering 8. Quality issues(품질 문제): Before 5–7, After steering 25–36."><div class="fallback"><picture><source media="(max-width: 700px)" srcset="fig/steering_m.svg" width="422" height="518"><img class="chart multi" src="fig/steering.svg" width="691" height="269" decoding="async" alt="사연 60개 기준. Sycophancy: Before 19, After steering 8. Quality issues: Before 5–7, After steering 25–36." style="max-width:720px"></picture></div></div>
         <figcaption><b>Figure 10.</b> Steering the model’s internals cut sycophancy but sharply raised quality issues (writing a script, repeating itself, copying earlier turns), so we moved to a black-box guard.</figcaption>
@@ -744,16 +777,10 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
 
     <div class="block" id="exp-guard">
       <h3>Guard evaluation<small>Qwen3-8B</small></h3>
-      <p class="take">가드 모듈은 맞장구를 <em>94%에서 13%로</em> 줄였고, 감정 인정은 줄지 않았습니다.</p>
       <figure>
         <div class="chartbox guard" data-chart="guard" role="img" aria-label="조건 순서 Baseline, Prompt only, Guard. Sycophancy(맞장구) Overall 94.2%, 37.5%, 13.3% (Push 95.0, 21.7, 3.3 / Emotion 93.3, 53.3, 23.3). Emotional validation(감정 인정) 64.2%, 65.0%, 71.7%. Quality issues(품질 문제) 6.7%, 0%, 0%."><div class="fallback"><picture><source media="(max-width: 700px)" srcset="fig/guard_m.svg" width="423" height="883"><img class="chart multi" src="fig/guard.svg" width="979" height="308" decoding="async" alt="조건 순서 Baseline, Prompt only, Guard. Sycophancy Overall 94.2%, 37.5%, 13.3% (Push 95.0, 21.7, 3.3 / Emotion 93.3, 53.3, 23.3). Emotional validation 64.2%, 65.0%, 71.7%. Quality issues 6.7%, 0%, 0%."></picture></div></div>
         <figcaption><b>Figure 11.</b> Guard evaluation on Qwen3-8B, 120 replies per condition, LLM-judged. Baseline: no system prompt · Prompt only: support prompt · Guard: support prompt + check + rewrite.</figcaption>
       </figure>
-      <div class="pass">
-        <span>Prompt only: <b>pass</b></span>
-        <span>Guard: <b>pass</b></span>
-        <span>기준은 시험 전에 고정 · p&nbsp;=&nbsp;0.0001</span>
-      </div>
       <ul class="points">
         <li><b>Prompt only</b>로도 절반 아래로 줄었고, <b>Guard</b>의 검사와 수정이 그 위에 24%포인트를 더 줄였습니다.</li>
         <li><b>Emotion</b>(감정 호소)은 여전히 가장 어렵습니다. Guard를 붙여도 23%가 남았습니다.</li>
@@ -1073,6 +1100,26 @@ svg.dia.wide { max-width: 920px; margin-inline: auto; }
     io.observe(box);
     addEventListener('beforeprint', () => { io.disconnect(); anims.forEach(a => a.finish()); });
   });
+})();
+</script>
+<script>
+/* Menu bar: shown once the header menu is off screen; marks the section being read (aria-current). */
+(() => {
+  const bar = document.querySelector('.topnav'), head = document.querySelector('header .links');
+  if (!bar || !head) return;
+  const links = [...bar.querySelectorAll('.topnav-l a')], secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  new IntersectionObserver(([e]) => bar.classList.toggle('on', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(head);
+  let ticking = false;
+  const mark = () => {
+    ticking = false;
+    const line = innerHeight * 0.35;
+    let cur = -1;
+    secs.forEach((sec, i) => { if (sec && sec.getBoundingClientRect().top <= line) cur = i; });
+    links.forEach((a, i) => { if (i === cur) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(mark); } }, { passive: true });
+  addEventListener('resize', mark);
+  mark();
 })();
 </script>
 </body>
