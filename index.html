@@ -428,6 +428,19 @@ section[id] { scroll-margin-top: 32px; }  /* the rule and padding above a sectio
 </style>
 </head>
 <body>
+<script>
+/* a reload starts at the top: the browser's restored scroll position is skipped, and a section link (#experiments) left in
+   the address bar by the menu is dropped. A fresh visit to a section link still lands on that section. */
+(() => {
+  const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (!nav || nav.type !== 'reload') return;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  const top = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  top(); addEventListener('DOMContentLoaded', top); addEventListener('load', top);
+})();
+</script>
+
 <nav class="topnav" aria-label="섹션 이동">
   <div class="topnav-in">
     <a class="topnav-t" href="#top">Anatomy of LLM Sycophancy</a>
